@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Game Example</title>
+  <script type="module" src="path/to/three.module.js"></script>
+</head>
+<body>
+  <script type="module">
+    import * as THREE from 'path/to/three.module.js';
+
+    // Set up the scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Create a cube as a placeholder for the player
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const player = new THREE.Mesh(geometry, material);
+    scene.add(player);
+
+    // Set up camera position
+    camera.position.z = 5;
+
+    // Set up controls (you may need a more advanced control system for a complete game)
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // Create a basic light
+    const light = new THREE.PointLight(0xffffff);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(newWidth, newHeight);
+    });
+
+    // Game loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      // Update controls
+      controls.update();
+
+      // Render the scene
+      renderer.render(scene, camera);
+    };
+
+    // Start the game loop
+    animate();
+  </script>
+</body>
+</html> 
